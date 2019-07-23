@@ -1,5 +1,4 @@
-//PTA 数据结构-2019夏 01-复杂度3 二分查找
-Position BinarySearch( List L, ElementType X ){
+﻿Position BinarySearch( List L, ElementType X ){
 	Position left=1,right=L->Last,center;
 	while(left<=right){	
 		center=(left+right)/2;
