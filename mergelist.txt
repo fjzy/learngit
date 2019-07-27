@@ -1,0 +1,56 @@
+02-线性结构1 两个有序链表序列的合并
+问题：题意理解出错 
+
+04-树7 二叉搜索树的操作集
+问题：delete操作
+首先查找元素是否在二叉搜索树中，如果不存在，则返回, 否则要删除的结点可能分下面四种情况：
+a. 要删除的结点无孩子结点
+b. 要删除的结点只有左孩子结点
+c. 要删除的结点只有右孩子结点
+d. 要删除的结点有左、右孩子结点
+情况1可以归类到2或者3
+对于上述情况，相应的删除方法如下：
+a. 直接删除该结点
+b. 删除该结点且使被删除节点的双亲结点指向被删除节点的左孩子结点
+c. 删除该结点且使被删除节点的双亲结点指向被删除结点的右孩子结点
+d. 在它的右子树中寻找中序下的第一个结点(关键码最小)，用它的值填补到被删除节点中，在来处理该结点的删除问题
+BinTree Delete( BinTree BST, ElementType X ){
+	if(!BST) {
+	 printf("Not Found\n");
+	return BST;	
+	}
+	BinTree temp;
+  if(X>BST->Data) {
+		BST->Right=Delete(BST->Right,X);
+	}
+	else if(X<BST->Data) {
+		BST->Left=Delete(BST->Left,X);
+	}
+	else{
+		//删除的三种情况 
+		if(BST->Left==NULL&&BST->Right==NULL){
+			temp=BST;		
+			BST=NULL;
+			free(temp);
+		}
+		else if(BST->Left!=NULL&&BST->Right==NULL){
+			temp=BST;		
+			BST=BST->Left;
+			free(temp);
+
+		 }
+		 else if(BST->Left==NULL&&BST->Right!=NULL){
+		    temp=BST;		
+			BST=BST->Right;
+			free(temp);
+			}
+		else{
+			temp=FindMin(BST->Right);
+			BST->Data=temp->Data;
+			BST->Right=Delete(BST->Right,BST->Data); 
+//注意这里不需要free (temp),填充节点是个叶子点，
+//上一句代码删除会运行下一块中含有free的部分
+		}	
+	}
+		return BST;	
+}
